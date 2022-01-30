@@ -1,20 +1,14 @@
-﻿cmake_minimum_required (VERSION 3.8)
+﻿cmake_minimum_required(VERSION 3.10)
+set (project "Test")
+project(${project} CXX)
+my_find_src_files (src_files ${project})
+add_executable (${project} ${src_files})
 
-project (Test CXX)
+my_inc_import_RisLib(${project})
+my_inc_import_CommonLib(${project})
 
-my_find_src_files (src_files Test)
-add_executable (Test ${src_files})
-my_add_compile_options (Test)
-my_add_pch (Test)
+my_lib_import_CommonLib(${project})
+my_lib_import_RisLib(${project})
 
-my_inc_import_RisLib(Test)
-my_lib_import_RisLib(Test)
-
-if (MSVC)
-   install(TARGETS Test DESTINATION "C:/aaa_prime/Example")
-elseif (MYMODE STREQUAL ubuntu OR MYMODE STREQUAL wsl) 
-   install(TARGETS Test DESTINATION "/opt/prime/bin")
-elseif (MYMODE STREQUAL beagle)
-   install(CODE "execute_process(COMMAND_ECHO STDOUT
-      COMMAND c:/windows/system32/openssh/scp ${CMAKE_CURRENT_BINARY_DIR}/Test pi@rpx:/opt/prime/bin)")
-endif()
+install(TARGETS ${project} DESTINATION "C:/aaa_prime/UCon")
+return()
